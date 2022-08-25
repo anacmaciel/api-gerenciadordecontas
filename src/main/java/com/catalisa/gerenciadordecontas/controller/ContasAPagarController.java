@@ -46,7 +46,7 @@ public class ContasAPagarController {
 
     @PutMapping(path = "contas/{id}")
     public ResponseEntity<ContasAPagarModel> alterarConta(@RequestBody ContasAPagarModel contasAPagarModel) {
-return ResponseEntity.ok();
+return ResponseEntity.ok(contasAPagarService.alterar(contasAPagarModel));
     }
 
     @DeleteMapping(path = "/contas/{id}")
