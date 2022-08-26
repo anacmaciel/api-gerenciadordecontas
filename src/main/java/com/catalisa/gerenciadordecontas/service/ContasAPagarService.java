@@ -5,11 +5,11 @@ import com.catalisa.gerenciadordecontas.enums.Tipo;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.repository.ContasAPagarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,17 +19,16 @@ public class ContasAPagarService {
     @Autowired
     private ContasAPagarRepository contasAPagarRepository;
 
+
     public List<ContasAPagarModel> buscarTodas() {
         return contasAPagarRepository.findAll();
     }
 
-    public ContasAPagarModel buscarPorId(Long id) {
-        Optional<ContasAPagarModel> contasAPagarModelOptional = contasAPagarRepository.findById(id);
-        if (contasAPagarModelOptional.isPresent()) {
-            return contasAPagarModelOptional.get();
-        } else {
-            throw new ChangeSetPersister.NotFoundException("Objeto nnão encontrado");
+    public Optional<ContasAPagarModel> buscarPorId(Long id) {
+        if (!contasAPagarRepository.existsById(id)) {
+            throw new RuntimeException("conta não localizada, não foi registrada ou já foi excluída");
         }
+        return contasAPagarRepository.findById(id);
     }
 
     public List<ContasAPagarModel> findByTipo(Tipo tipo) {
@@ -40,37 +39,34 @@ public class ContasAPagarService {
         return contasAPagarRepository.findByStatus(status);
     }
 
+    public ContasAPagarModel cadastrar(ContasAPagarModel contasAPagarModel) {
+        contasAPagarModel.setDataDeCadastro(LocalDate.now(ZoneId.of("UTC-03:00")));
+        Status inserirDatas = Status.validarDatas(contasAPagarModel.getDataDeCadastro(), contasAPagarModel.getDataDeVencimento());
+        contasAPagarModel.setStatus(inserirDatas);
+        contasAPagarModel.setDataDePagamento(null);
+        return contasAPagarRepository.save(contasAPagarModel);
+    }
 
-    public Status validarData(LocalDate data) {
-        LocalDate dataAtual = LocalDate.now();
-        if (data.isBefore(dataAtual)) {
-            return Status.VENCIDA;
-        } else {
-            return Status.AGUARDANDO;
+    public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
+        Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
+        if (optionalContasAPagarModel.isEmpty()) {
+            throw new RuntimeException("esta conta não foi encontrada no sistema");
+        }
+        ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
+        if (contaEncontrada.getStatus() == Status.VENCIDA) {
+            throw new RuntimeException("esta conta ja venceu");
+        } else if (contaEncontrada.getStatus() == Status.PAGO) {
+            throw new RuntimeException("esta conta ja foi paga");
+        }
+        Status statusInformado = contaAPagarModel.getStatus();
+        contaEncontrada.setStatus(statusInformado);
+        return contasAPagarRepository.save(contaEncontrada);
+    }
+        public void deletar (Long id){
+
+            if (!contasAPagarRepository.existsById(id)) {
+                throw new RuntimeException("Objeto não encontrado, não existe ou já foi deletado.");
+            }
+            contasAPagarRepository.deleteById(id);
         }
     }
-
-    public ContasAPagarModel cadastrar(ContasAPagarModel contasAPagarModel) {
-        contasAPagarModel.getNome();
-        contasAPagarModel.getValor();
-        contasAPagarModel.getTipo();
-        contasAPagarModel.getDataDeVencimento();
-        contasAPagarModel.setStatus(validarData(contasAPagarModel.getDataDeVencimento()));
-        return contasAPagarRepository.save(contasAPagarModel);
-    }
-
-    public ContasAPagarModel alterar(ContasAPagarModel contasAPagarModel) {
-        contasAPagarModel.getId();
-        contasAPagarModel.getNome();
-        contasAPagarModel.getValor();
-        contasAPagarModel.getTipo();
-        contasAPagarModel.getDataDeVencimento();
-        contasAPagarModel.setDataDePagamento(LocalDateTime.now(contasAPagarModel.getDataDeVencimento()));
-        return contasAPagarRepository.save(contasAPagarModel);
-    }
-
-
-    public void deletar(Long id) {
-        contasAPagarRepository.deleteById(id);
-    }
-}
