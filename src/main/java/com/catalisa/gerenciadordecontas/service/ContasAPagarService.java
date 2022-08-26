@@ -47,6 +47,7 @@ public class ContasAPagarService {
         return contasAPagarRepository.save(contasAPagarModel);
     }
 
+
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
         if (optionalContasAPagarModel.isEmpty()) {
