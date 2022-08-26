@@ -60,6 +60,7 @@ public class ContasAPagarService {
         }
         Status statusInformado = contaAPagarModel.getStatus();
         contaEncontrada.setStatus(statusInformado);
+contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
         return contasAPagarRepository.save(contaEncontrada);
     }
         public void deletar (Long id){
