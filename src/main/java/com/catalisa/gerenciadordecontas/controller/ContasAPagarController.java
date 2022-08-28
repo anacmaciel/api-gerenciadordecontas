@@ -8,7 +8,6 @@ import com.catalisa.gerenciadordecontas.service.ContasAPagarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +17,13 @@ import java.util.Optional;
 public class ContasAPagarController {
 
     @Autowired
-    private ContasAPagarRepository contasAPagarRepository;
-    @Autowired
     private ContasAPagarService contasAPagarService;
 
     @GetMapping(path = "/contas")
     public ResponseEntity<List<ContasAPagarModel>> buscartodasContas() {
 
         return ResponseEntity.ok(contasAPagarService.buscarTodas());
-    }
+}
 
     @GetMapping(path = "contas/{id}")
     public ResponseEntity<Optional<ContasAPagarModel>> buscarPorId(@PathVariable Long id) {
