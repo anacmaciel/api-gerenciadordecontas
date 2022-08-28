@@ -19,7 +19,6 @@ public class ContasAPagarService {
     @Autowired
     private ContasAPagarRepository contasAPagarRepository;
 
-
     public List<ContasAPagarModel> buscarTodas() {
         return contasAPagarRepository.findAll();
     }

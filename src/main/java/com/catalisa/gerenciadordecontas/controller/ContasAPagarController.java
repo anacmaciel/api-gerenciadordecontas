@@ -16,9 +16,6 @@ import java.util.Optional;
 
 @RestController
 public class ContasAPagarController {
-
-    @Autowired
-    private ContasAPagarRepository contasAPagarRepository;
     @Autowired
     private ContasAPagarService contasAPagarService;
 
