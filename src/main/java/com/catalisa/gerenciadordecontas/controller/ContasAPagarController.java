@@ -2,6 +2,7 @@ package com.catalisa.gerenciadordecontas.controller;
 
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
+import com.catalisa.gerenciadordecontas.model.ContasAPagarDTO;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.service.ContasAPagarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,13 @@ public class ContasAPagarController {
     public ResponseEntity<List<ContasAPagarModel>> buscartodasContas() {
 
         return ResponseEntity.ok(contasAPagarService.buscarTodas());
-}
+    }
+
+
+    @GetMapping(path = "/contas/lista")
+    public ResponseEntity<List<ContasAPagarDTO>> listarTodasContas() {
+        return ResponseEntity.ok(contasAPagarService.listarContas());
+    }
 
     @GetMapping(path = "contas/{id}")
     public ResponseEntity<Optional<ContasAPagarModel>> buscarPorId(@PathVariable Long id) {

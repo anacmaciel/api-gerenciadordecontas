@@ -33,6 +33,12 @@ public class ContasAPagarService {
         return contasAPagarModels.stream().map(ContasAPagarDTO::new).collect(Collectors.toList());
     }
 
+
+    public List<ContasAPagarDTO> listarContas() {
+
+        return converter(contasAPagarRepository.findAll());
+    }
+
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
         if (!contasAPagarRepository.existsById(id)) {
             throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("conta não localizada, não foi registrada ou já foi excluída");

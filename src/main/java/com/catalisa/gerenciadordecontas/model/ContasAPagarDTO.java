@@ -10,10 +10,10 @@ private String nome;
 private double valor;
 private Status status;
 
-    public ContasAPagarDTO(Long id, String nome, double valor, Status status) {
-        this.id = id;
-        this.nome = nome;
-        this.valor = valor;
-        this.status = status;
+    public ContasAPagarDTO(ContasAPagarModel model) {
+        this.id = model.getId();
+        this.nome = model.getNome();
+        this.valor =model.getValor();
+        this.status =model.getStatus();
     }
 }
