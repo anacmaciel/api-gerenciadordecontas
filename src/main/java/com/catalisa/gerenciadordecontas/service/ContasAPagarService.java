@@ -2,6 +2,7 @@ package com.catalisa.gerenciadordecontas.service;
 
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
+import com.catalisa.gerenciadordecontas.model.ContasAPagarDTO;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.repository.ContasAPagarRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ContasAPagarService {
@@ -26,6 +28,10 @@ public class ContasAPagarService {
         return contasAPagarRepository.findAll();
     }
 
+
+    public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
+        return contasAPagarModels.stream().map(ContasAPagarDTO::new).collect(Collectors.toList());
+    }
 
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
         if (!contasAPagarRepository.existsById(id)) {
@@ -54,14 +60,14 @@ public class ContasAPagarService {
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
         if (optionalContasAPagarModel.isEmpty()) {
-           throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta não foi encontrada no sistema");
+            throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
         ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
         if (contaEncontrada.getStatus() == Status.VENCIDA) {
             throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
 
-throw new ObjectNotFoundException("esta conta ja foi paga");
+            throw new ObjectNotFoundException("esta conta ja foi paga");
         }
         Status statusInformado = contaAPagarModel.getStatus();
         contaEncontrada.setStatus(statusInformado);
