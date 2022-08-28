@@ -58,10 +58,10 @@ public class ContasAPagarService {
         }
         ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
         if (contaEncontrada.getStatus() == Status.VENCIDA) {
-org.hibernate.ObjectNotFoundException("esta conta ja venceu");
+            throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
 
-throw new org.hibernate.ObjectNotFoundException("esta conta ja foi paga");
+throw new ObjectNotFoundException("esta conta ja foi paga");
         }
         Status statusInformado = contaAPagarModel.getStatus();
         contaEncontrada.setStatus(statusInformado);
@@ -72,7 +72,7 @@ throw new org.hibernate.ObjectNotFoundException("esta conta ja foi paga");
     public void deletar(Long id) {
 
         if (!contasAPagarRepository.existsById(id)) {
-            throw new org.hibernate.ObjectNotFoundException("Objeto não encontrado, não existe ou já foi deletado.");
+            throw new ObjectNotFoundException("Objeto não encontrado, não existe ou já foi deletado.");
         }
         contasAPagarRepository.deleteById(id);
     }
