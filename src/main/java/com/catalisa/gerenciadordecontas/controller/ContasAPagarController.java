@@ -3,7 +3,6 @@ package com.catalisa.gerenciadordecontas.controller;
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
-import com.catalisa.gerenciadordecontas.repository.ContasAPagarRepository;
 import com.catalisa.gerenciadordecontas.service.ContasAPagarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
