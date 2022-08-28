@@ -35,8 +35,8 @@ public class ContasAPagarService {
 
 
     public List<ContasAPagarDTO> listarContas() {
-
-        return converter(contasAPagarRepository.findAll());
+List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
+        return converter(contasAPagarModels);
     }
 
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
