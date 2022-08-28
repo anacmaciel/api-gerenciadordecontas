@@ -4,6 +4,7 @@ import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.repository.ContasAPagarRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,14 @@ public class ContasAPagarService {
 
 
     public List<ContasAPagarModel> buscarTodas() {
+
         return contasAPagarRepository.findAll();
     }
 
+
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
         if (!contasAPagarRepository.existsById(id)) {
-            throw new RuntimeException("conta não localizada, não foi registrada ou já foi excluída");
+            throw new ObjectNotFoundException("conta não localizada, não foi registrada ou já foi excluída");
         }
         return contasAPagarRepository.findById(id);
     }
@@ -51,24 +54,25 @@ public class ContasAPagarService {
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
         if (optionalContasAPagarModel.isEmpty()) {
-            throw new RuntimeException("esta conta não foi encontrada no sistema");
+            throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
         ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
         if (contaEncontrada.getStatus() == Status.VENCIDA) {
-            throw new RuntimeException("esta conta ja venceu");
+            throw new ObjectNotFoundException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
-            throw new RuntimeException("esta conta ja foi paga");
+            throw new ObjectNotFoundException("esta conta ja foi paga");
         }
         Status statusInformado = contaAPagarModel.getStatus();
         contaEncontrada.setStatus(statusInformado);
-contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
+        contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
         return contasAPagarRepository.save(contaEncontrada);
     }
-        public void deletar (Long id){
 
-            if (!contasAPagarRepository.existsById(id)) {
-                throw new RuntimeException("Objeto não encontrado, não existe ou já foi deletado.");
-            }
-            contasAPagarRepository.deleteById(id);
+    public void deletar(Long id) {
+
+        if (!contasAPagarRepository.existsById(id)) {
+            throw new ObjectNotFoundException("Objeto não encontrado, não existe ou já foi deletado.");
         }
+        contasAPagarRepository.deleteById(id);
     }
+}
