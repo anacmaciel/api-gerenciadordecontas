@@ -57,7 +57,7 @@ public class ContasAPagarService {
             throw new RuntimeException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
             throw new RuntimeException("esta conta ja foi paga");
-        } else if (contaEncontrada.getDataDePagamento() == null) {
+        } if (contaEncontrada.getDataDePagamento() == null) {
             Status statusInformado = contaAPagarModel.getStatus();
             contaEncontrada.setStatus(statusInformado);
             contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
