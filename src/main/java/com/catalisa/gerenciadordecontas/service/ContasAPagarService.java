@@ -57,17 +57,19 @@ public class ContasAPagarService {
             throw new RuntimeException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
             throw new RuntimeException("esta conta ja foi paga");
+        } else if (contaEncontrada.getDataDePagamento() == null) {
+            Status statusInformado = contaAPagarModel.getStatus();
+            contaEncontrada.setStatus(statusInformado);
+            contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
         }
-        Status statusInformado = contaAPagarModel.getStatus();
-        contaEncontrada.setStatus(statusInformado);
-contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
         return contasAPagarRepository.save(contaEncontrada);
     }
-        public void deletar (Long id){
 
-            if (!contasAPagarRepository.existsById(id)) {
-                throw new RuntimeException("Objeto não encontrado, não existe ou já foi deletado.");
-            }
-            contasAPagarRepository.deleteById(id);
+    public void deletar(Long id) {
+
+        if (!contasAPagarRepository.existsById(id)) {
+            throw new RuntimeException("Objeto não encontrado, não existe ou já foi deletado.");
         }
+        contasAPagarRepository.deleteById(id);
     }
+}
