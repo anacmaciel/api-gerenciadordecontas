@@ -74,7 +74,7 @@ List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
 
             throw new ObjectNotFoundException("esta conta ja foi paga");
-        } else if (contaEncontrada.getDataDePagamento() == null) {
+        } if(contaEncontrada.getDataDePagamento() == null) {
             Status statusInformado = contaAPagarModel.getStatus();
             contaEncontrada.setStatus(statusInformado);
             contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
