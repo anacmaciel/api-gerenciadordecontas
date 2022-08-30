@@ -38,4 +38,7 @@ public class ContasAPagarModel {
         this.tipo = tipo;
         this.dataDeVencimento = dataDeVencimento;
     }
+
+    public ContasAPagarModel() {
+    }
 }
