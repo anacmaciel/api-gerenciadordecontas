@@ -71,11 +71,11 @@ public class ContasAPagarService {
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
         if (optionalContasAPagarModel.isEmpty()) {
-            throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta não foi encontrada no sistema");
+           throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
         ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
         if (contaEncontrada.getStatus() == Status.VENCIDA) {
-            throw new com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException("esta conta ja venceu");
+            throw new ObjectNotFoundException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
 
             throw new ObjectNotFoundException("esta conta ja foi paga");
