@@ -3,6 +3,7 @@ package com.catalisa.gerenciadordecontas.controller;
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarDTO;
+import com.catalisa.gerenciadordecontas.model.ContasAPagarEntradaDTO;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.service.ContasAPagarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class ContasAPagarController {
     }
 
     @PostMapping(path = "/contas")
-    public ResponseEntity<ContasAPagarModel> cadastrarConta(@RequestBody ContasAPagarModel contasAPagarModel) {
+    public ResponseEntity<ContasAPagarModel> cadastrarConta(@RequestBody ContasAPagarEntradaDTO contasAPagarEntradaDTO) {
 
-        ContasAPagarModel contasAPagar = contasAPagarService.cadastrar(contasAPagarModel);
+        ContasAPagarModel contasAPagar = contasAPagarService.cadastrar(contasAPagarEntradaDTO.transformaParaObjeto());
         return new ResponseEntity<>(contasAPagar, HttpStatus.CREATED);
     }
 

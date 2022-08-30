@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ContasAPagarService {
@@ -30,12 +30,17 @@ public class ContasAPagarService {
 
 
     public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
-        return contasAPagarModels.stream().map(ContasAPagarDTO::new).collect(Collectors.toList());
+        List<ContasAPagarDTO> novaLista = new ArrayList<>();
+        for (ContasAPagarModel model : contasAPagarModels) {
+            ContasAPagarDTO novaContaDto = new ContasAPagarDTO(model);
+            novaLista.add(novaContaDto);
+        }
+        return novaLista;
     }
 
 
     public List<ContasAPagarDTO> listarContas() {
-List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
+        List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
         return converter(contasAPagarModels);
     }
 
@@ -74,7 +79,8 @@ List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
 
             throw new ObjectNotFoundException("esta conta ja foi paga");
-        } if(contaEncontrada.getDataDePagamento() == null) {
+        }
+        if (contaEncontrada.getDataDePagamento() == null) {
             Status statusInformado = contaAPagarModel.getStatus();
             contaEncontrada.setStatus(statusInformado);
             contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));

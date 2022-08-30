@@ -32,10 +32,10 @@ public class ContasAPagarModel {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    public ContasAPagarModel(ContasAPagarEntradaDTO dtoEntrada) {
-        this.nome = dtoEntrada.getNome();
-        this.valor = dtoEntrada.getValor();
-        this.tipo = dtoEntrada.getTipo();
-        this.dataDeVencimento = dtoEntrada.getDataDeVencimento();
+    public ContasAPagarModel(String nome, double valor, Tipo tipo, LocalDate dataDeVencimento) {
+        this.nome = nome;
+        this.valor = valor;
+        this.tipo = tipo;
+        this.dataDeVencimento = dataDeVencimento;
     }
 }
