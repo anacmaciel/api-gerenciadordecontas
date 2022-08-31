@@ -2,14 +2,17 @@ package com.catalisa.gerenciadordecontas.service;
 
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.Tipo;
+import com.catalisa.gerenciadordecontas.model.ContasAPagarDTO;
 import com.catalisa.gerenciadordecontas.model.ContasAPagarModel;
 import com.catalisa.gerenciadordecontas.repository.ContasAPagarRepository;
+import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +23,29 @@ public class ContasAPagarService {
     private ContasAPagarRepository contasAPagarRepository;
 
     public List<ContasAPagarModel> buscarTodas() {
+
         return contasAPagarRepository.findAll();
+    }
+
+
+    public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
+        List<ContasAPagarDTO> novaLista = new ArrayList<>();
+        for (ContasAPagarModel model : contasAPagarModels) {
+            ContasAPagarDTO novaContaDto = new ContasAPagarDTO(model);
+            novaLista.add(novaContaDto);
+        }
+        return novaLista;
+    }
+
+
+    public List<ContasAPagarDTO> listarContas() {
+        List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
+        return converter(contasAPagarModels);
     }
 
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
         if (!contasAPagarRepository.existsById(id)) {
-            throw new RuntimeException("conta não localizada, não foi registrada ou já foi excluída");
+            throw new ObjectNotFoundException("conta não localizada, não foi registrada ou já foi excluída");
         }
         return contasAPagarRepository.findById(id);
     }
@@ -50,14 +70,15 @@ public class ContasAPagarService {
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);
         if (optionalContasAPagarModel.isEmpty()) {
-            throw new RuntimeException("esta conta não foi encontrada no sistema");
+            throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
         ContasAPagarModel contaEncontrada = optionalContasAPagarModel.get();
         if (contaEncontrada.getStatus() == Status.VENCIDA) {
-            throw new RuntimeException("esta conta ja venceu");
+            throw new ObjectNotFoundException("esta conta ja venceu");
         } else if (contaEncontrada.getStatus() == Status.PAGO) {
-            throw new RuntimeException("esta conta ja foi paga");
-        } if (contaEncontrada.getDataDePagamento() == null) {
+            throw new ObjectNotFoundException("esta conta ja foi paga");
+        }
+        if (contaEncontrada.getDataDePagamento() == null) {
             Status statusInformado = contaAPagarModel.getStatus();
             contaEncontrada.setStatus(statusInformado);
             contaEncontrada.setDataDePagamento(LocalDate.now(ZoneId.of("UTC-03:00")));
@@ -68,7 +89,7 @@ public class ContasAPagarService {
     public void deletar(Long id) {
 
         if (!contasAPagarRepository.existsById(id)) {
-            throw new RuntimeException("Objeto não encontrado, não existe ou já foi deletado.");
+            throw new ObjectNotFoundException("Objeto não encontrado, não existe ou já foi deletado.");
         }
         contasAPagarRepository.deleteById(id);
     }

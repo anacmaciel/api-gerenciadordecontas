@@ -31,4 +31,14 @@ public class ContasAPagarModel {
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+    public ContasAPagarModel(String nome, double valor, Tipo tipo, LocalDate dataDeVencimento) {
+        this.nome = nome;
+        this.valor = valor;
+        this.tipo = tipo;
+        this.dataDeVencimento = dataDeVencimento;
+    }
+
+    public ContasAPagarModel() {
+    }
 }
