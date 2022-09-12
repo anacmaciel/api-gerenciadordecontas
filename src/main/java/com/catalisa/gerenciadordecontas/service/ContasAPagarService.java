@@ -29,19 +29,9 @@ public class ContasAPagarService {
     }
 
 
-    public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
-        List<ContasAPagarDTO> novaLista = new ArrayList<>();
-        for (ContasAPagarModel model : contasAPagarModels) {
-            ContasAPagarDTO novaContaDto = new ContasAPagarDTO(model);
-            novaLista.add(novaContaDto);
-        }
-        return novaLista;
-    }
-
-
     public List<ContasAPagarDTO> listarContas() {
         List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
-        return converter(contasAPagarModels);
+        return ContasAPagarDTO.converter(contasAPagarModels);
     }
 
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
