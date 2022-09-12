@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,20 +26,9 @@ public class ContasAPagarService {
         return contasAPagarRepository.findAll();
     }
 
-
-    public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
-        List<ContasAPagarDTO> novaLista = new ArrayList<>();
-        for (ContasAPagarModel model : contasAPagarModels) {
-            ContasAPagarDTO novaContaDto = new ContasAPagarDTO(model);
-            novaLista.add(novaContaDto);
-        }
-        return novaLista;
-    }
-
-
     public List<ContasAPagarDTO> listarContas() {
         List<ContasAPagarModel> contasAPagarModels = contasAPagarRepository.findAll();
-        return converter(contasAPagarModels);
+        return ContasAPagarDTO.converter(contasAPagarModels);
     }
 
     public Optional<ContasAPagarModel> buscarPorId(Long id) {
