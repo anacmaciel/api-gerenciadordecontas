@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,5 +24,7 @@ public class EnderecoModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
-
+    @ManyToOne
+    @JoinColumn(name = "cidade_id", referencedColumnName = "codigo")
+    private CidadeModel cidade;
 }
