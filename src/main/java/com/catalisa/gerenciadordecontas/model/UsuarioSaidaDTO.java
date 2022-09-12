@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -18,5 +20,8 @@ public class UsuarioSaidaDTO {
         this.nomeUsuario = usuario.getNomeUsuario();
         this.dataNascimento = usuario.getDataNascimento();
         this.email = usuario.getEmail();
+    }
+    public static List<UsuarioSaidaDTO> converter(List<UsuarioModel> usuarioModels) {
+        return usuarioModels.stream().map(UsuarioSaidaDTO::new).collect(Collectors.toList());
     }
 }

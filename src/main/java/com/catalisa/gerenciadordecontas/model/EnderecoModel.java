@@ -23,4 +23,5 @@ public class EnderecoModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
+
 }
