@@ -1,7 +1,5 @@
 package com.catalisa.gerenciadordecontas.service;
 
-import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
-import com.catalisa.gerenciadordecontas.model.EnderecoModel;
 import com.catalisa.gerenciadordecontas.model.UsuarioModel;
 import com.catalisa.gerenciadordecontas.model.UsuarioSaidaDTO;
 import com.catalisa.gerenciadordecontas.repository.EnderecoRepository;
@@ -46,10 +44,6 @@ public class UsuarioService {
         usuarioEncontrado.setNomeUsuario(nomeInformado);
         String emailInformado = usuario.getEmail();
         usuarioEncontrado.setEmail(emailInformado);
-        List<EnderecoModel> enderecosInformados = usuario.getEnderecos();
-        usuarioEncontrado.setEnderecos(enderecosInformados);
-        List<ContasReceberModel> contasReceberInformadas = usuario.getContasReceber();
-        usuarioEncontrado.setContasReceber(contasReceberInformadas);
         return usuarioRepository.save(usuario);
     }
 
