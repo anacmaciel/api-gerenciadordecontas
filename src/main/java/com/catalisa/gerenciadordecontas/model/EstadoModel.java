@@ -9,11 +9,12 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "estados")
+@Table(name = "estado")
 public class EstadoModel implements Serializable {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long codigo;
 private String uf;
 private String nomeEstado;
 @JsonIgnore
