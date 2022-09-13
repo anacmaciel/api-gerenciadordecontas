@@ -2,7 +2,6 @@ package com.catalisa.gerenciadordecontas.service;
 
 import com.catalisa.gerenciadordecontas.model.UsuarioModel;
 import com.catalisa.gerenciadordecontas.model.UsuarioSaidaDTO;
-import com.catalisa.gerenciadordecontas.repository.EnderecoRepository;
 import com.catalisa.gerenciadordecontas.repository.UsuarioRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import java.util.Optional;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
 
     public List<UsuarioSaidaDTO> exibirTodos() {
         List<UsuarioModel> usuarioModels = usuarioRepository.findAll();
@@ -50,8 +47,9 @@ public class UsuarioService {
     public void deletar(Long codigo) {
         if (!usuarioRepository.existsById(codigo)) {
             throw new ObjectNotFoundException("Usuário não encontrado, não existe ou já foi excluído");
+        } else {
+            usuarioRepository.deleteById(codigo);
         }
-        usuarioRepository.deleteById(codigo);
     }
 }
 

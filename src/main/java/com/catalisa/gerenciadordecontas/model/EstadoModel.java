@@ -12,12 +12,12 @@ import java.util.List;
 @Table(name = "estado")
 public class EstadoModel implements Serializable {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long codigo;
-private String uf;
-private String nomeEstado;
-@JsonIgnore
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
+    private String uf;
+    private String nomeEstado;
+    @JsonIgnore
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private List<CidadeModel> cidades;
 }

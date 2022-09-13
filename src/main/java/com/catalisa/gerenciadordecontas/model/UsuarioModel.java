@@ -26,13 +26,13 @@ public class UsuarioModel implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false, unique = true)
-    @CPF
     private String cpf;
     @Column(nullable = false)
     private LocalDate dataNascimento;
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<EnderecoModel> enderecos;
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<ContasReceberModel> contasReceber;
 
