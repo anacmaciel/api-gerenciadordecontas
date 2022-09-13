@@ -14,11 +14,11 @@ public class ContasReceberService {
     @Autowired
     private ContasReceberRepository contasReceberRepository;
 
-    public List<ContasReceberModel> exibirContas() {
+    public List<ContasReceberModel> listarContas() {
         return contasReceberRepository.findAll();
     }
 
-    public Optional<ContasReceberModel> visualisarContaEspecifica(Long codigo) {
+    public Optional<ContasReceberModel> exibirContaEspecifica(Long codigo) {
         if (!contasReceberRepository.existsById(codigo)) {
             throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
