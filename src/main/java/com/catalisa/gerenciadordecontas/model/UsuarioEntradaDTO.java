@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class UsuarioEntradaDTO {
@@ -19,9 +21,10 @@ public class UsuarioEntradaDTO {
     @CPF
     private String cpf;
     private LocalDate dataNascimento;
-
+private List<EnderecoModel> enderecos;
+private List<ContasReceberModel> contasReceber;
 
     public UsuarioModel transformaParaObjeto() {
-        return new UsuarioModel(nomeUsuario, email, cpf, dataNascimento);
+        return new UsuarioModel(nomeUsuario, email, cpf, dataNascimento, enderecos, contasReceber);
     }
 }

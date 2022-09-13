@@ -35,4 +35,12 @@ public ResponseEntity<Optional<UsuarioModel>> buscarUsuarioPorId(@PathVariable L
 return ResponseEntity.ok(usuarioService.buscarPorId(codigo));
 }
 
+@PutMapping(path = "/{codigo}")
+public ResponseEntity<UsuarioModel> atualizarUsuario(@RequestBody UsuarioModel usuarioModel, @PathVariable Long codigo) {
+return ResponseEntity.ok(usuarioService.atualizar(usuarioModel, codigo));
+    }
+
+    @DeleteMapping(path = "/{codigo}")
+public void deletarUsuario(@PathVariable Long codigo) { usuarioService.deletar(codigo);
+}
 }

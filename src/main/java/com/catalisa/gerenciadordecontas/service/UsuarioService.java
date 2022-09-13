@@ -1,5 +1,7 @@
 package com.catalisa.gerenciadordecontas.service;
 
+import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
+import com.catalisa.gerenciadordecontas.model.EnderecoModel;
 import com.catalisa.gerenciadordecontas.model.UsuarioModel;
 import com.catalisa.gerenciadordecontas.model.UsuarioSaidaDTO;
 import com.catalisa.gerenciadordecontas.repository.EnderecoRepository;
@@ -13,24 +15,49 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService {
-@Autowired
+    @Autowired
     private UsuarioRepository usuarioRepository;
-@Autowired
+    @Autowired
     private EnderecoRepository enderecoRepository;
 
-public List<UsuarioSaidaDTO> exibirTodos() {List<UsuarioModel> usuarioModels = usuarioRepository.findAll();
-    return UsuarioSaidaDTO.converter(usuarioModels);
-}
-
-public UsuarioModel cadastrar(UsuarioModel usuarioModel) {
-    return usuarioRepository.save(usuarioModel);
-}
-
-public Optional<UsuarioModel> buscarPorId(Long codigo) {
-    if (!usuarioRepository.existsById(codigo)) {
-        throw new ObjectNotFoundException("usuário não encontrado, não foi cadastrado ou já foi excluído");
+    public List<UsuarioSaidaDTO> exibirTodos() {
+        List<UsuarioModel> usuarioModels = usuarioRepository.findAll();
+        return UsuarioSaidaDTO.converter(usuarioModels);
     }
-    return usuarioRepository.findById(codigo);
+
+    public UsuarioModel cadastrar(UsuarioModel usuarioModel) {
+        return usuarioRepository.save(usuarioModel);
+    }
+
+    public Optional<UsuarioModel> buscarPorId(Long codigo) {
+        if (!usuarioRepository.existsById(codigo)) {
+            throw new ObjectNotFoundException("usuário não encontrado, não foi cadastrado ou já foi excluído");
+        }
+        return usuarioRepository.findById(codigo);
+    }
+
+    public UsuarioModel atualizar(UsuarioModel usuario, Long codigo) {
+        Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
+        if (optionalUsuarioModel.isEmpty()) {
+            throw new ObjectNotFoundException("este usuário não existe");
+        }
+        UsuarioModel usuarioEncontrado = optionalUsuarioModel.get();
+        String nomeInformado = usuario.getNomeUsuario();
+        usuarioEncontrado.setNomeUsuario(nomeInformado);
+        String emailInformado = usuario.getEmail();
+        usuarioEncontrado.setEmail(emailInformado);
+        List<EnderecoModel> enderecosInformados = usuario.getEnderecos();
+        usuarioEncontrado.setEnderecos(enderecosInformados);
+        List<ContasReceberModel> contasReceberInformadas = usuario.getContasReceber();
+        usuarioEncontrado.setContasReceber(contasReceberInformadas);
+        return usuarioRepository.save(usuario);
+    }
+
+    public void deletar(Long codigo) {
+        if (!usuarioRepository.existsById(codigo)) {
+            throw new ObjectNotFoundException("Usuário não encontrado, não existe ou já foi excluído");
+        }
+        usuarioRepository.deleteById(codigo);
     }
 }
 
