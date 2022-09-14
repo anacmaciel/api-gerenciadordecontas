@@ -2,6 +2,7 @@ package com.catalisa.gerenciadordecontas.service;
 
 import com.catalisa.gerenciadordecontas.enums.RecebimentoAlugueis;
 import com.catalisa.gerenciadordecontas.enums.Status;
+import com.catalisa.gerenciadordecontas.enums.TipoRecebimento;
 import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
 import com.catalisa.gerenciadordecontas.repository.ContasReceberRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
@@ -75,5 +76,9 @@ public class ContasReceberService {
 
 public List<ContasReceberModel> findByStatus(Status status) {
         return contasReceberRepository.findByStatus(status);
+}
+
+public List<ContasReceberModel> findByTipoRecebimento(TipoRecebimento tipoRecebimento) {
+        return contasReceberRepository.findByTipoRecebimento(tipoRecebimento);
 }
 }
