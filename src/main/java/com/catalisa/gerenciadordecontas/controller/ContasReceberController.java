@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +50,10 @@ public ResponseEntity<Optional<ContasReceberModel>> exibirContaReceberEspecifica
 @GetMapping(path = "/tiporecebimento/{tipoRecebimento")
 public ResponseEntity<List<ContasReceberModel>> findByTipoRecebimento(@PathVariable TipoRecebimento tipoRecebimento) {
     return ResponseEntity.ok(contasReceberService.findByTipoRecebimento(tipoRecebimento));
+}
+
+@GetMapping(path = "/datavencimento/{dataDeVencimento}")
+public ResponseEntity<List<ContasReceberModel>> findByDataDeVencimento(@PathVariable LocalDate dataDeVencimento) {
+    return ResponseEntity.ok(contasReceberService.findByDataDeVencimento(dataDeVencimento));
 }
 }
