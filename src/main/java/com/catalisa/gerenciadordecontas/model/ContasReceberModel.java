@@ -37,6 +37,7 @@ public class ContasReceberModel implements Serializable {
     private Status status;
     private LocalDate dataRecebimento;
     private LocalDate dataDeCadastro;
+    @NotBlank(message = "insira um usuario")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
