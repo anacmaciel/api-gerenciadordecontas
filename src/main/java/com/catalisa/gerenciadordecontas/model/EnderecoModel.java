@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -16,9 +17,14 @@ public class EnderecoModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+    @NotBlank(message = "insira o nome da cidade")
     private String logradouro;
+    @NotBlank(message = "insira o nome do bairro")
     private String bairro;
+    @NotBlank(message = "insira um cep")
+    @Column(length = 8)
     private String cep;
+    @NotBlank(message = "insira um ponto de referencia")
     private String pontoReferencia;
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
