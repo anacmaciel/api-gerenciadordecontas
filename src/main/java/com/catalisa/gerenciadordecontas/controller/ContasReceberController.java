@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public ResponseEntity<Optional<ContasReceberModel>> exibirContaReceberEspecifica
 }
 
 @PutMapping(path = "/{codigo}")
-    public ResponseEntity<ContasReceberModel> alterarContaReceber(@PathVariable Long codigo, @RequestBody ContasReceberModel contasReceberModel) {
+    public ResponseEntity<ContasReceberModel> alterarContaReceber(@PathVariable Long codigo, @RequestBody @Valid ContasReceberModel contasReceberModel) {
     return ResponseEntity.ok(contasReceberService.alterar(codigo, contasReceberModel));
 }
 @DeleteMapping(path = "/{codigo}")
@@ -43,7 +44,7 @@ public ResponseEntity<Optional<ContasReceberModel>> exibirContaReceberEspecifica
     contasReceberService.deletar(codigo);
 }
 @PostMapping
-    public ResponseEntity<ContasReceberModel> cadastrarContaReceber(@RequestBody ContasReceberModel contasReceberModel) {
+    public ResponseEntity<ContasReceberModel> cadastrarContaReceber(@RequestBody @Valid  ContasReceberModel contasReceberModel) {
     ContasReceberModel conta = contasReceberService.cadastrar(contasReceberModel);
     return new ResponseEntity<>(conta, HttpStatus.CREATED);
 }

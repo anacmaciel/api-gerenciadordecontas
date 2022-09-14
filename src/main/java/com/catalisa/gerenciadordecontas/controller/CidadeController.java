@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +28,13 @@ public class CidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<CidadeModel> cadastrarCidade(@RequestBody CidadeModel cidadeModel) {
+    public ResponseEntity<CidadeModel> cadastrarCidade(@RequestBody @Valid CidadeModel cidadeModel) {
         CidadeModel cidade = cidadeService.cadastrar(cidadeModel);
         return new ResponseEntity<>(cidade, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{codigo}/")
-    public ResponseEntity<CidadeModel> atualizarCidade(@PathVariable Long codigo, CidadeModel cidadeModel) {
+    public ResponseEntity<CidadeModel> atualizarCidade(@PathVariable Long codigo,@RequestBody @PathVariable CidadeModel cidadeModel) {
         return ResponseEntity.ok(cidadeService.atualizar(codigo, cidadeModel));
     }
 

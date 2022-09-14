@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class EstadoController {
     }
 
     @PutMapping(path = "/{codigo}")
-    public ResponseEntity<EstadoModel> alterarEstado(@PathVariable Long codigo, @RequestBody EstadoModel estadoModel) {
+    public ResponseEntity<EstadoModel> alterarEstado(@PathVariable Long codigo, @RequestBody @Valid  EstadoModel estadoModel) {
         return ResponseEntity.ok(estadoService.atualizar(codigo, estadoModel));
     }
 
