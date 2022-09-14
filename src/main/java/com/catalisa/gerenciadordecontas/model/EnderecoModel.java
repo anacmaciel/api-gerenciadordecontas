@@ -17,7 +17,7 @@ public class EnderecoModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
-    @NotBlank(message = "insira o nome da cidade")
+    @NotBlank(message = "insira o logradouro.")
     private String logradouro;
     @NotBlank(message = "insira o nome do bairro")
     private String bairro;
@@ -26,9 +26,11 @@ public class EnderecoModel implements Serializable {
     private String cep;
     @NotBlank(message = "insira um ponto de referencia")
     private String pontoReferencia;
+    @NotBlank(message = "insira um usuario")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
+    @NotBlank(message = "insira a cidade")
     @ManyToOne
     @JoinColumn(name = "cidade_id", referencedColumnName = "codigo")
     private CidadeModel cidade;
