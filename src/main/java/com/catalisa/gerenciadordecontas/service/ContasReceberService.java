@@ -3,12 +3,14 @@ package com.catalisa.gerenciadordecontas.service;
 import com.catalisa.gerenciadordecontas.enums.RecebimentoAlugueis;
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.TipoRecebimento;
+import com.catalisa.gerenciadordecontas.factory.AlugueisFactory;
 import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
 import com.catalisa.gerenciadordecontas.repository.ContasReceberRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -30,21 +32,24 @@ public class ContasReceberService {
         return contasReceberRepository.findById(codigo);
     }
 
-    public ContasReceberModel cadastrar(ContasReceberModel contasReceberModel) {
+
+    public ContasReceberModel cadastrar(AlugueisFactory alugueisFactory, ContasReceberModel contasReceberModel) {
         contasReceberModel.setDataDeCadastro(LocalDate.now(ZoneId.of("UTC-03:00")));
         Status RegistrarStatus = Status.validarStatus(contasReceberModel.getDataDeCadastro(), contasReceberModel.getDataDeVencimento());
         contasReceberModel.setStatus(RegistrarStatus);
         contasReceberModel.setDataRecebimento(null);
-        boolean recebimentoEmDia =
-                LocalDate.now().isBefore(contasReceberModel.getDataDeVencimento())
-                        || LocalDate.now().equals(contasReceberModel.getDataDeVencimento());
-        if (Boolean.FALSE.equals(recebimentoEmDia)) {
-            contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_ATRASO);
-        } else if (Boolean.TRUE.equals(recebimentoEmDia)) {
-            contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_DIA);
-        } else {
-            contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.ADIANTADO);
-        }
+if (contasReceberModel.getTipoRecebimento().equals(TipoRecebimento.ALUGUEIS)) {
+LocalDate dataDeHoje = LocalDate.now();
+if (contasReceberModel.getDataDeVencimento().isAfter(dataDeHoje)) {
+    contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.ADIANTADO);
+} else if (contasReceberModel.getDataDeVencimento().isBefore(dataDeHoje)) {
+    contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_ATRASO);
+} else {
+    contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_DIA);
+}
+    BigDecimal resultadoValorFinal = alugueisFactory.iCalculoAlugueis(contasReceberModel).calculo(contasReceberModel.getValorRecebimento());
+contasReceberModel.setValorFinal();
+}
         return contasReceberRepository.save(contasReceberModel);
     }
 

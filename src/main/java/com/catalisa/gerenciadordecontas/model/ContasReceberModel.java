@@ -37,7 +37,7 @@ public class ContasReceberModel implements Serializable {
     private Status status;
     private LocalDate dataRecebimento;
     private LocalDate dataDeCadastro;
-    private valorFinal;
+    private BigDecimal valorFinal;
 
     @NotBlank(message = "insira um usuario")
     @ManyToOne
