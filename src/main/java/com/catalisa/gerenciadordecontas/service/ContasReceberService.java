@@ -2,16 +2,14 @@ package com.catalisa.gerenciadordecontas.service;
 
 import com.catalisa.gerenciadordecontas.enums.RecebimentoAlugueis;
 import com.catalisa.gerenciadordecontas.enums.Status;
-import com.catalisa.gerenciadordecontas.enums.TipoRecebimento;
 import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
 import com.catalisa.gerenciadordecontas.repository.ContasReceberRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +30,9 @@ public class ContasReceberService {
     }
 
     public ContasReceberModel cadastrar(ContasReceberModel contasReceberModel) {
-        Status inserirStatus = Status.validarDatas(contasReceberModel.getDataDeCadastro(), contasReceberModel.getDataDeVencimento());
-        contasReceberModel.setStatus(inserirStatus);
+        contasReceberModel.setDataDeCadastro(LocalDate.now(ZoneId.of("UTC-03:00")));
+        Status RegistrarStatus = Status.validarStatus(contasReceberModel.getDataDeCadastro(), contasReceberModel.getDataDeVencimento());
+        contasReceberModel.setStatus(RegistrarStatus);
         contasReceberModel.setDataRecebimento(null);
         boolean recebimentoEmDia =
                 LocalDate.now().isBefore(contasReceberModel.getDataDeVencimento())
@@ -51,29 +50,18 @@ public class ContasReceberService {
     public ContasReceberModel alterar(Long codigo, ContasReceberModel contasReceberModel) {
         Optional<ContasReceberModel> optionalContasReceberModel = contasReceberRepository.findById(codigo);
         if (optionalContasReceberModel.isEmpty()) {
-            throw new ObjectNotFoundException("esta conta não está cadastrada no sistema");
+            throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
         ContasReceberModel contaEncontrada = optionalContasReceberModel.get();
-        if (contaEncontrada.getStatus() == Status.PAGO) {
-            contaEncontrada.setDataRecebimento(LocalDateTime.now());
+        if (contaEncontrada.getStatus() == Status.VENCIDA) {
+            throw new ObjectNotFoundException("esta conta ja venceu");
+        } else if (contaEncontrada.getStatus() == Status.PAGO) {
+            throw new ObjectNotFoundException("esta conta ja foi paga");
         }
-        String recebimentoInformado = contasReceberModel.getRecebimento();
-        contaEncontrada.setRecebimento(recebimentoInformado);
-        LocalDate dataDeVencimentoInformada = contasReceberModel.getDataDeVencimento();
-        contaEncontrada.setDataDeVencimento(dataDeVencimentoInformada);
-        TipoRecebimento tipoRecebimentoInformado = contasReceberModel.getTipoRecebimento();
-        contaEncontrada.setTipoRecebimento(tipoRecebimentoInformado);
-        BigDecimal valorRecebimentoInformado = contasReceberModel.getValorRecebimento();
-        contaEncontrada.setValorRecebimento(valorRecebimentoInformado);
-        boolean recebimentoEmDia =
-                LocalDate.now().isBefore(contasReceberModel.getDataDeVencimento())
-                        || LocalDate.now().equals(contasReceberModel.getDataDeVencimento());
-        if (Boolean.FALSE.equals(recebimentoEmDia)) {
-            contaEncontrada.setRecebimentoAlugueis(RecebimentoAlugueis.EM_ATRASO);
-        } else if (Boolean.TRUE.equals(recebimentoEmDia)) {
-            contaEncontrada.setRecebimentoAlugueis(RecebimentoAlugueis.EM_DIA);
-        } else {
-            contaEncontrada.setRecebimentoAlugueis(RecebimentoAlugueis.ADIANTADO);
+        if (contaEncontrada.getDataRecebimento() == null) {
+            Status statusInformado = contasReceberModel.getStatus();
+            contaEncontrada.setStatus(statusInformado);
+            contaEncontrada.setDataRecebimento(LocalDate.now(ZoneId.of("UTC-03:00")));
         }
         return contasReceberRepository.save(contaEncontrada);
     }
@@ -84,4 +72,8 @@ public class ContasReceberService {
         }
         contasReceberRepository.deleteById(codigo);
     }
+
+public List<ContasReceberModel> findByStatus(Status status) {
+        return contasReceberRepository.findByStatus(status);
+}
 }

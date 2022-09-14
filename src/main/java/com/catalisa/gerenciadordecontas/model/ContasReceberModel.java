@@ -32,7 +32,7 @@ public class ContasReceberModel implements Serializable {
     private BigDecimal valorRecebimento;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private LocalDateTime dataRecebimento;
+    private LocalDate dataRecebimento;
     private LocalDate dataDeCadastro;
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +50,8 @@ public class ContasAPagarService {
 
     public ContasAPagarModel cadastrar(ContasAPagarModel contasAPagarModel) {
         contasAPagarModel.setDataDeCadastro(LocalDate.now(ZoneId.of("UTC-03:00")));
-        Status inserirDatas = Status.validarDatas(contasAPagarModel.getDataDeCadastro(), contasAPagarModel.getDataDeVencimento());
-        contasAPagarModel.setStatus(inserirDatas);
+        Status registrarStatus = Status.validarStatus(contasAPagarModel.getDataDeCadastro(), contasAPagarModel.getDataDeVencimento());
+        contasAPagarModel.setStatus(registrarStatus);
         contasAPagarModel.setDataDePagamento(null);
         return contasAPagarRepository.save(contasAPagarModel);
     }

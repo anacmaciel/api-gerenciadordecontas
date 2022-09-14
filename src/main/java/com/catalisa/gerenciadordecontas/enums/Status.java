@@ -8,7 +8,7 @@ public enum Status {
     VENCIDA,
     EM_ABERTO;
 
-    public static Status validarDatas(LocalDate dataDeCadastro, LocalDate dataDeVencimento) {
+    public static Status validarStatus(LocalDate dataDeCadastro, LocalDate dataDeVencimento) {
         if (dataDeVencimento.isBefore(dataDeCadastro)) {
             return VENCIDA;
         } else if (dataDeVencimento.isAfter(dataDeCadastro) || dataDeVencimento.equals(dataDeCadastro)) {
