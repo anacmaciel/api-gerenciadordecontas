@@ -9,13 +9,13 @@ public enum Status {
     EM_ABERTO;
 
     public static Status validarStatus(LocalDate dataDeCadastro, LocalDate dataDeVencimento) {
-        if (dataDeVencimento.isBefore(dataDeCadastro)) {
-            return VENCIDA;
-        } else if (dataDeVencimento.isAfter(dataDeCadastro) || dataDeVencimento.equals(dataDeCadastro)) {
+        if (dataDeCadastro.isBefore(dataDeVencimento) || dataDeCadastro.equals(dataDeVencimento)) {
             return AGUARDANDO;
+        } else if (dataDeCadastro.isAfter(dataDeVencimento)) {
+            return VENCIDA;
         } else {
             return EM_ABERTO;
         }
 
-
-    }}
+    }
+}
