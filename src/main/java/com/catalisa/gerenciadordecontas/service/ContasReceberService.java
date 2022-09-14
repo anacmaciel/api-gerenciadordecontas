@@ -81,4 +81,7 @@ public List<ContasReceberModel> findByStatus(Status status) {
 public List<ContasReceberModel> findByTipoRecebimento(TipoRecebimento tipoRecebimento) {
         return contasReceberRepository.findByTipoRecebimento(tipoRecebimento);
 }
+public List<ContasReceberModel> findByDataDeVencimento(LocalDate dataDeVencimento) {
+        return contasReceberRepository
+}
 }
