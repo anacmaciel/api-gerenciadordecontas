@@ -48,12 +48,11 @@ public class ContasAPagarService {
 
     public ContasAPagarModel cadastrar(ContasAPagarModel contasAPagarModel) {
         contasAPagarModel.setDataDeCadastro(LocalDate.now(ZoneId.of("UTC-03:00")));
-        Status inserirDatas = Status.validarDatas(contasAPagarModel.getDataDeCadastro(), contasAPagarModel.getDataDeVencimento());
-        contasAPagarModel.setStatus(inserirDatas);
+        Status registrarStatus = Status.validarStatus(contasAPagarModel.getDataDeCadastro(), contasAPagarModel.getDataDeVencimento());
+        contasAPagarModel.setStatus(registrarStatus);
         contasAPagarModel.setDataDePagamento(null);
         return contasAPagarRepository.save(contasAPagarModel);
     }
-
 
     public ContasAPagarModel alterar(ContasAPagarModel contaAPagarModel, Long id) {
         Optional<ContasAPagarModel> optionalContasAPagarModel = contasAPagarRepository.findById(id);

@@ -22,7 +22,6 @@ private Status status;
         this.status =model.getStatus();
     }
 
-
     public static List<ContasAPagarDTO> converter(List<ContasAPagarModel> contasAPagarModels) {
         List<ContasAPagarDTO> novaLista = new ArrayList<>();
         for (ContasAPagarModel model : contasAPagarModels) {
@@ -31,5 +30,4 @@ private Status status;
         }
         return novaLista;
     }
-
 }
