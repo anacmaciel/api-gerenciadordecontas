@@ -2,6 +2,7 @@ package com.catalisa.gerenciadordecontas.controller;
 
 import com.catalisa.gerenciadordecontas.enums.Status;
 import com.catalisa.gerenciadordecontas.enums.TipoRecebimento;
+import com.catalisa.gerenciadordecontas.factory.AlugueisFactory;
 import com.catalisa.gerenciadordecontas.model.ContasReceberModel;
 import com.catalisa.gerenciadordecontas.service.ContasReceberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +45,12 @@ public ResponseEntity<Optional<ContasReceberModel>> exibirContaReceberEspecifica
     contasReceberService.deletar(codigo);
 }
 @PostMapping
-    public ResponseEntity<ContasReceberModel> cadastrarContaReceber(@RequestBody @Valid  ContasReceberModel contasReceberModel) {
-    ContasReceberModel conta = contasReceberService.cadastrar(contasReceberModel);
+    public ResponseEntity<ContasReceberModel> cadastrarContaReceber(AlugueisFactory alugueisFactory, @RequestBody @Valid  ContasReceberModel contasReceberModel) {
+    ContasReceberModel conta = contasReceberService.cadastrar(alugueisFactory, contasReceberModel);
     return new ResponseEntity<>(conta, HttpStatus.CREATED);
 }
-@GetMapping(path = "/tiporecebimento/{tipoRecebimento")
+
+@GetMapping(path = "/tiporecebimento/{tipoRecebimento}")
 public ResponseEntity<List<ContasReceberModel>> findByTipoRecebimento(@PathVariable TipoRecebimento tipoRecebimento) {
     return ResponseEntity.ok(contasReceberService.findByTipoRecebimento(tipoRecebimento));
 }

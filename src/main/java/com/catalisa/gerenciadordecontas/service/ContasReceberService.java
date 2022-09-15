@@ -48,7 +48,7 @@ if (contasReceberModel.getDataDeVencimento().isAfter(dataDeHoje)) {
     contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_DIA);
 }
     BigDecimal resultadoValorFinal = alugueisFactory.iCalculoAlugueis(contasReceberModel).calculo(contasReceberModel.getValorRecebimento());
-contasReceberModel.setValorFinal();
+contasReceberModel.setValorFinal(resultadoValorFinal);
 }
         return contasReceberRepository.save(contasReceberModel);
     }
