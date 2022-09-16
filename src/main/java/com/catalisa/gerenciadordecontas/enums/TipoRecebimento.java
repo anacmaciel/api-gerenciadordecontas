@@ -1,7 +1,9 @@
 package com.catalisa.gerenciadordecontas.enums;
 
+
 public enum TipoRecebimento {
-ALUGUEIS,
+    ALUGUEIS,
     EMPREGO_CLT,
-    FREELaNCER
+    FREELaNCER;
+
 }

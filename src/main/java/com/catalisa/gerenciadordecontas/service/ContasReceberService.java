@@ -39,17 +39,12 @@ public class ContasReceberService {
         contasReceberModel.setStatus(RegistrarStatus);
         contasReceberModel.setDataRecebimento(null);
         if (contasReceberModel.getTipoRecebimento().equals(TipoRecebimento.ALUGUEIS)) {
-            LocalDate dataDeHoje = LocalDate.now();
-            if (contasReceberModel.getDataDeVencimento().isAfter(dataDeHoje)) {
-                contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.ADIANTADO);
-            } else if (contasReceberModel.getDataDeVencimento().isBefore(dataDeHoje)) {
-                contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_ATRASO);
-            } else {
-                contasReceberModel.setRecebimentoAlugueis(RecebimentoAlugueis.EM_DIA);
-            }
+            RecebimentoAlugueis validarStatusDeRecebimentoAluguel = RecebimentoAlugueis.validarRecebimentoAluguel(contasReceberModel.getDataDeVencimento());
+            contasReceberModel.setRecebimentoAlugueis(validarStatusDeRecebimentoAluguel);
             BigDecimal resultadoValorFinal = alugueisFactory.iCalculoAlugueis(contasReceberModel).calculo(contasReceberModel.getValorRecebimento());
             contasReceberModel.setValorFinal(resultadoValorFinal);
         }
+
         return contasReceberRepository.save(contasReceberModel);
     }
 
