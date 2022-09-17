@@ -31,7 +31,7 @@ public class UsuarioController {
     }
 
 @GetMapping(path = "/{codigo}")
-public ResponseEntity<Optional<UsuarioModel>> buscarUsuarioPorId(@PathVariable Long codigo) {
+public ResponseEntity<UsuarioModel> buscarUsuarioPorId(@PathVariable Long codigo) {
 return ResponseEntity.ok(usuarioService.buscarPorId(codigo));
 }
 
