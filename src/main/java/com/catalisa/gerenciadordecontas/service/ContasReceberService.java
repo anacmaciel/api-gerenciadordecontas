@@ -25,11 +25,12 @@ public class ContasReceberService {
         return contasReceberRepository.findAll();
     }
 
-    public Optional<ContasReceberModel> exibirContaEspecifica(Long codigo) {
-        if (!contasReceberRepository.existsById(codigo)) {
+    public ContasReceberModel exibirContaEspecifica(Long codigo) {
+        Optional<ContasReceberModel> optionalContasReceberModel = contasReceberRepository.findById(codigo);
+        if (optionalContasReceberModel.isEmpty()) {
             throw new ObjectNotFoundException("esta conta não foi encontrada no sistema");
         }
-        return contasReceberRepository.findById(codigo);
+        return optionalContasReceberModel.get();
     }
 
 
@@ -68,7 +69,8 @@ public class ContasReceberService {
     }
 
     public void deletar(Long codigo) {
-        if (!contasReceberRepository.existsById(codigo)) {
+        Optional<ContasReceberModel> optionalContasReceberModel = contasReceberRepository.findById(codigo);
+        if (optionalContasReceberModel.isEmpty()) {
             throw new ObjectNotFoundException("não encontramos esta conta em nossa base de dados");
         }
         contasReceberRepository.deleteById(codigo);

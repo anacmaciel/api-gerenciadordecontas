@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/contasreceber")
@@ -32,7 +31,7 @@ public ResponseEntity<List<ContasReceberModel>> findByStatus(@PathVariable Statu
 }
 
 @GetMapping(path = "/{codigo}")
-public ResponseEntity<Optional<ContasReceberModel>> exibirContaReceberEspecifica(@PathVariable Long codigo) {
+public ResponseEntity<ContasReceberModel> exibirContaReceberEspecifica(@PathVariable Long codigo) {
     return ResponseEntity.ok(contasReceberService.exibirContaEspecifica(codigo));
 }
 
