@@ -22,7 +22,7 @@ public class EstadoController {
     }
 
     @GetMapping(path = "/{codigo}")
-    public ResponseEntity<Optional<EstadoModel>> exibirEstadoPorId(@PathVariable long codigo) {
+    public ResponseEntity<EstadoModel> exibirEstadoPorId(@PathVariable long codigo) {
         return ResponseEntity.ok(estadoService.buscarEstadoPorId(codigo));
     }
 

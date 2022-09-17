@@ -18,11 +18,12 @@ public class EstadoService {
         return estadoRepository.findAll();
     }
 
-    public Optional<EstadoModel> buscarEstadoPorId(Long codigo) {
-        if (!estadoRepository.existsById(codigo)) {
+    public EstadoModel buscarEstadoPorId(Long codigo) {
+        Optional<EstadoModel> optionalEstadoModel = estadoRepository.findById(codigo);
+        if (optionalEstadoModel.isEmpty()) {
             throw new ObjectNotFoundException("Este estado não foi encontrado nesta base de dados");
         }
-        return estadoRepository.findById(codigo);
+        return optionalEstadoModel.get();
     }
 
     public EstadoModel cadastrar(EstadoModel estadoModel) {
@@ -46,7 +47,8 @@ public class EstadoService {
     }
 
     public void deletar(Long codigo) {
-        if (!estadoRepository.existsById(codigo)) {
+        Optional<EstadoModel> optionalEstadoModel = estadoRepository.findById(codigo);
+        if (optionalEstadoModel.isEmpty()) {
             throw new ObjectNotFoundException("este estado não está em nossa base de dados");
         } else {
             estadoRepository.deleteById(codigo);
