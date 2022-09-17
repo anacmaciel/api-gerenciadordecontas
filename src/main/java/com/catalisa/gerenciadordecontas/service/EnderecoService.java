@@ -18,11 +18,12 @@ public class EnderecoService {
         return enderecoRepository.findAll();
     }
 
-    public Optional<EnderecoModel> buscarPorId(Long codigo) {
-        if (!enderecoRepository.existsById(codigo)) {
+    public EnderecoModel buscarPorId(Long codigo) {
+        Optional<EnderecoModel> optionalEnderecoModel = enderecoRepository.findById(codigo);
+        if (optionalEnderecoModel.isEmpty()) {
             throw new ObjectNotFoundException("este endereço não consta em nossa base de dados");
         }
-        return enderecoRepository.findById(codigo);
+        return optionalEnderecoModel.get();
     }
 
     public EnderecoModel cadastrar(EnderecoModel enderecoModel) {

@@ -23,7 +23,7 @@ public ResponseEntity<List<EnderecoModel>> exibirtodosEnderecos() {
 }
 
 @GetMapping(path = "/{codigo}")
-public ResponseEntity<Optional<EnderecoModel>> exibirEnderecoEspecifico(@PathVariable Long codigo) {
+public ResponseEntity<EnderecoModel> exibirEnderecoEspecifico(@PathVariable Long codigo) {
     return ResponseEntity.ok(enderecoService.buscarPorId(codigo));
 }
 
