@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -21,7 +22,7 @@ public class UsuarioEntradaDTO {
     @NotBlank(message = "insira um cpf")
     @CPF
     private String cpf;
-    @NotBlank(message = "insira sua data de nascimento")
+    @NotNull(message = "Data de nascimento é obrigatória")
     private LocalDate dataNascimento;
 
     public UsuarioModel transformaParaObjeto() {

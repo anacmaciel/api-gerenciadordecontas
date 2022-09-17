@@ -25,12 +25,14 @@ public class UsuarioService {
     }
 
     public Optional<UsuarioModel> buscarPorId(Long codigo) {
-        if (!usuarioRepository.existsById(codigo)) {
-            throw new ObjectNotFoundException("usuário não encontrado, não foi cadastrado ou já foi excluído");
-        }
-        return usuarioRepository.findById(codigo);
-    }
+Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
 
+        if (optionalUsuarioModel.isEmpty()) {
+            throw new ObjectNotFoundException("usuário não encontrado, não foi cadastrado ou já foi excluído");
+        } else {
+            return usuarioRepository.findById(codigo);
+        }
+    }
     public UsuarioModel atualizar(UsuarioModel usuario, Long codigo) {
         Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
         if (optionalUsuarioModel.isEmpty()) {

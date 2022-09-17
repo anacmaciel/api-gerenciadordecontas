@@ -25,7 +25,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioModel> cadastrarUsuario(@RequestBody @Valid UsuarioEntradaDTO entradaDTO) {
+    public ResponseEntity<UsuarioModel> cadastrarUsuario(@RequestBody @Valid  UsuarioEntradaDTO entradaDTO) {
         UsuarioModel usuarioModel = usuarioService.cadastrar(entradaDTO.transformaParaObjeto());
         return new ResponseEntity<>(usuarioModel, HttpStatus.CREATED);
     }
