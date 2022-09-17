@@ -45,7 +45,8 @@ public class CidadeService {
     }
 
     public void deletar(Long codigo) {
-        if (!cidadeRepository.existsById(codigo)) {
+        Optional<CidadeModel> optionalCidadeModel = cidadeRepository.findById(codigo);
+        if (optionalCidadeModel.isEmpty()) {
             throw new ObjectNotFoundException("esta cidade não foi encontrada em nossa base de dados");
         } else {
             cidadeRepository.deleteById(codigo);
