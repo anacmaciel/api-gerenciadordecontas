@@ -33,6 +33,7 @@ Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo)
             return usuarioRepository.findById(codigo);
         }
     }
+
     public UsuarioModel atualizar(UsuarioModel usuario, Long codigo) {
         Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
         if (optionalUsuarioModel.isEmpty()) {
@@ -47,7 +48,8 @@ Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo)
     }
 
     public void deletar(Long codigo) {
-        if (!usuarioRepository.existsById(codigo)) {
+        Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
+        if (optionalUsuarioModel.isEmpty()) {
             throw new ObjectNotFoundException("Usuário não encontrado, não existe ou já foi excluído");
         } else {
             usuarioRepository.deleteById(codigo);
