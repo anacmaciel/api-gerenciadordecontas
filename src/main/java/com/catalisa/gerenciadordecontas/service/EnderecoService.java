@@ -44,7 +44,8 @@ public class EnderecoService {
     }
 
     public void deletar(Long codigo) {
-        if (!enderecoRepository.existsById(codigo)) {
+        Optional<EnderecoModel> optionalEnderecoModel = enderecoRepository.findById(codigo);
+        if (optionalEnderecoModel.isEmpty()) {
             throw new ObjectNotFoundException("este endereço não foi encontrado em nossa base de dados");
         } else {
             enderecoRepository.deleteById(codigo);
