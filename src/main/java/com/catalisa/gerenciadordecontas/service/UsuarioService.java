@@ -25,12 +25,12 @@ public class UsuarioService {
     }
 
     public UsuarioModel buscarPorId(Long codigo) {
-Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
+        Optional<UsuarioModel> optionalUsuarioModel = usuarioRepository.findById(codigo);
         if (optionalUsuarioModel.isEmpty()) {
             throw new ObjectNotFoundException("usuário não encontrado, não foi cadastrado ou já foi excluído");
         }
-            return optionalUsuarioModel.get();
-        }
+        return optionalUsuarioModel.get();
+    }
 
 
     public UsuarioModel atualizar(UsuarioModel usuario, Long codigo) {

@@ -3,7 +3,6 @@ package com.catalisa.gerenciadordecontas.service;
 import com.catalisa.gerenciadordecontas.model.CidadeModel;
 import com.catalisa.gerenciadordecontas.model.EstadoModel;
 import com.catalisa.gerenciadordecontas.repository.CidadeRepository;
-import com.catalisa.gerenciadordecontas.repository.EstadoRepository;
 import com.catalisa.gerenciadordecontas.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +19,12 @@ public class CidadeService {
         return cidadeRepository.findAll();
     }
 
-    public Optional<CidadeModel> buscarPorId(Long codigo) {
-        if (!cidadeRepository.existsById(codigo)) {
+    public CidadeModel buscarPorId(Long codigo) {
+        Optional<CidadeModel> optionalCidadeModel = cidadeRepository.findById(codigo);
+        if (optionalCidadeModel.isEmpty()) {
             throw new ObjectNotFoundException("esta cidade não consta em nossa base de dados");
-
         }
-        return cidadeRepository.findById(codigo);
+        return optionalCidadeModel.get();
     }
 
     public CidadeModel cadastrar(CidadeModel cidadeModel) {
