@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "usuario")
+@RequestMapping(path = "/usuario")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioModel> cadastrarUsuario(@RequestBody @Valid  UsuarioEntradaDTO entradaDTO) {
+    public ResponseEntity<UsuarioModel> cadastrarUsuario(@RequestBody @Valid UsuarioEntradaDTO entradaDTO) {
         UsuarioModel usuarioModel = usuarioService.cadastrar(entradaDTO.transformaParaObjeto());
         return new ResponseEntity<>(usuarioModel, HttpStatus.CREATED);
     }

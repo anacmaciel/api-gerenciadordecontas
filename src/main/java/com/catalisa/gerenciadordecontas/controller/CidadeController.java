@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "cidade")
+@RequestMapping(path = "/cidade")
 public class CidadeController {
     @Autowired
     private CidadeService cidadeService;
