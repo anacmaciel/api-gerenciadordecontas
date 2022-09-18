@@ -26,11 +26,11 @@ public class EnderecoModel implements Serializable {
     private String cep;
     @NotBlank(message = "insira um ponto de referencia")
     private String pontoReferencia;
-    @NotBlank(message = "insira um usuario")
+    //@NotBlank(message = "insira um usuario")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
-    @NotBlank(message = "insira a cidade")
+    //@NotBlank(message = "insira a cidade")
     @ManyToOne
     @JoinColumn(name = "cidade_id", referencedColumnName = "codigo")
     private CidadeModel cidade;

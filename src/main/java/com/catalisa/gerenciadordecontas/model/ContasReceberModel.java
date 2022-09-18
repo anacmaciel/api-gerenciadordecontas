@@ -29,9 +29,9 @@ public class ContasReceberModel implements Serializable {
     private TipoRecebimento tipoRecebimento;
     @Enumerated(EnumType.STRING)
     private RecebimentoAlugueis recebimentoAlugueis;
-    @NotBlank(message = "insira a data de vencimento")
+    //@NotBlank(message = "insira a data de vencimento")
     private LocalDate dataDeVencimento;
-    @NotBlank(message = "insira o valor a receber")
+    //@NotBlank(message = "insira o valor a receber")
     private BigDecimal valorRecebimento;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -39,7 +39,7 @@ public class ContasReceberModel implements Serializable {
     private LocalDate dataDeCadastro;
     private BigDecimal valorFinal;
 
-    @NotBlank(message = "insira um usuario")
+    //@NotBlank(message = "insira um usuario")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;
