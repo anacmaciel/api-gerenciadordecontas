@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "cidade")
+@RequestMapping(path = "/cidade")
 public class CidadeController {
     @Autowired
     private CidadeService cidadeService;
