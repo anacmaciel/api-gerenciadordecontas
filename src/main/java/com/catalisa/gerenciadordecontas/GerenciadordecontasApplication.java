@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GerenciadordecontasApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GerenciadordecontasApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GerenciadordecontasApplication.class, args);
+    }
 
 }
