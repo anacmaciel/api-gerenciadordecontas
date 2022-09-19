@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/usuario")
+@RequestMapping(path = "/usuarios")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
