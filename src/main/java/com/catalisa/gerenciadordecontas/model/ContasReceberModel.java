@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,9 +30,9 @@ public class ContasReceberModel implements Serializable {
     private TipoRecebimento tipoRecebimento;
     @Enumerated(EnumType.STRING)
     private RecebimentoAlugueis recebimentoAlugueis;
-    //@NotBlank(message = "insira a data de vencimento")
+    @NotNull(message = "data de vencimento é obrigatória")
     private LocalDate dataDeVencimento;
-    //@NotBlank(message = "insira o valor a receber")
+    @NotNull(message = "valor é obrigatório")
     private BigDecimal valorRecebimento;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -39,7 +40,7 @@ public class ContasReceberModel implements Serializable {
     private LocalDate dataDeCadastro;
     private BigDecimal valorFinal;
 
-    //@NotBlank(message = "insira um usuario")
+    @NotNull(message = "insira um usuario")
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
     private UsuarioModel usuario;

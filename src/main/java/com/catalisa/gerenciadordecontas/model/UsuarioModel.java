@@ -25,7 +25,7 @@ public class UsuarioModel implements Serializable {
     private String nomeUsuario;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(length = 11, nullable = false, unique = true)
     private String cpf;
     @Column(nullable = false)
     private LocalDate dataNascimento;
